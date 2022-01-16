@@ -3,7 +3,6 @@ global function GamemodePVB_Init
 
 void function GamemodePVB_Init()
 {
-	TrackTitanDamageInPlayerGameStat( PGS_ASSAULT_SCORE )
 	SetShouldUseRoundWinningKillReplay( true )
 	SetLoadoutGracePeriodEnabled( false ) // prevent modifying loadouts with grace period
 	SetWeaponDropsEnabled( false )
@@ -34,7 +33,7 @@ void function SelectFirstBoss()
 
 void function SelectFirstBossDelayed()
 {
-	wait 5.0 + RandomFloat( 5.0 )
+	wait 10.0 + RandomFloat( 5.0 )
 
 	array<entity> players = GetPlayerArray()
 	entity boss = players[ RandomInt( players.len() ) ]
@@ -66,8 +65,8 @@ void function RespawnBoss(entity player)
 	RespawnAsTitan( player, false )
 	wait 1.0
 	SetTeam( player, TEAM_IMC )
-	player.SetMaxHealth(25000 * GetPlayerArray().len())
-	player.SetHealth(25000 * GetPlayerArray().len())
+	player.SetMaxHealth(15000 * GetPlayerArray().len())
+	player.SetHealth(15000 * GetPlayerArray().len())
 }
 
 void function BossOnPlayerKilled( entity victim, entity attacker, var damageInfo )

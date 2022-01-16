@@ -1,0 +1,9 @@
+WeaponData
+{
+	"fire_rate"   									"2"
+	MP_BASE
+	{
+		"damage_near_value_titanarmor"					"250"
+		"damage_far_value_titanarmor" 					"250"
+	}
+}

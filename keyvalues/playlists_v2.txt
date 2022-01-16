@@ -15,6 +15,7 @@ playlists
 				max_players 16
 				max_teams 2
 				classic_mp 1
+				pilot_health_multiplier 2
 
 				gamemode_score_hint #GAMEMODE_SCORE_HINT_TDM
 			}
