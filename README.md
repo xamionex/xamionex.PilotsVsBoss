@@ -9,4 +9,4 @@
 3. Open R2Northstar\mods\Northstar.CustomServers\mod\cfg\autoexec_ns_server.cfg
    - ns_private_match_last_mode ffa
    - slide_step_velocity_reduction -45
-4. Done, you can enjoy your UnholyTrinity server!
+4. Done, you can enjoy your PilotsVsBoss server!
