@@ -85,12 +85,11 @@ void function MakePlayerAmped(entity player)
 void function RespawnBoss(entity player)
 {
 	player.Die()
-	wait 2.0
 	RespawnAsTitan( player, false )
-	wait 1.0
 	SetTeam( player, TEAM_IMC )
 	player.SetMaxHealth(15000 * GetPlayerArray().len())
 	player.SetHealth(15000 * GetPlayerArray().len())
+	player.SetTitanDisembarkEnabled(false)
 	thread SelectAmpedPlayer()
 }
 
