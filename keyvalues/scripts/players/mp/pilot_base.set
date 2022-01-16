@@ -1,0 +1,16 @@
+"pilot_base"
+{
+    "global"
+    {
+        slideRequiredStartSpeed 0
+        friction 0.5
+        slidedecel  0
+        slidevelocitydecay  1
+        speed 1000
+        sprintspeed 1500
+        acceleration 9000
+        deceleration 400
+        sprintAcceleration 20000
+        sprintDeceleration 400
+    }
+}
