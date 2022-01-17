@@ -19,6 +19,7 @@ void function GamemodePVB_Init()
 	AddCallback_OnClientConnected( BossInitPlayer )
 	AddCallback_OnPlayerKilled( BossOnPlayerKilled )
 	AddCallback_GameStateEnter( eGameState.Playing, SelectFirstBoss )
+	//AddCallback_GameStateEnter( eGameState.Postmatch, RemoveBoss )
 	SetTimeoutWinnerDecisionFunc( TimeoutCheckBoss )
 	TrackTitanDamageInPlayerGameStat( PGS_ASSAULT_SCORE )
 }
@@ -31,24 +32,28 @@ void function BossInitPlayer( entity player )
 void function SelectFirstBoss()
 {
 	thread SelectFirstBossDelayed()
+	thread SelectAmpedPlayer()
 }
 
 void function SelectAmpedPlayer()
 {
+	wait 10.0 + RandomFloat( 5.0 )
 	array<entity> militia = GetPlayerArrayOfTeam( TEAM_MILITIA )
-	if ( militia.len() < 1 )
+	if ( militia.len() == 0 )
 		return
 	entity ampd = militia[ RandomInt( militia.len() ) ]
 	if (ampd != null || IsAlive(ampd))
 		MakePlayerAmped( ampd )
-	foreach ( entity otherPlayer in GetPlayerArray() )
-		if ( ampd != otherPlayer )
-			SendHudMessage( otherPlayer, "The Amped Is " + ampd.GetPlayerName(), -1, 0.2, 255, 255, 255, 0, 0.15, 8, 1 )
+	foreach ( entity otherPlayer in militia )
+		if ( ampd != otherPlayer || otherPlayer.GetTeam() != TEAM_IMC )
+			Remote_CallFunction_NonReplay( otherPlayer, "ServerCallback_AnnounceAmped", ampd.GetEncodedEHandle() )
+	foreach( entity player in GetPlayerArrayOfTeam( TEAM_IMC ))
+		Remote_CallFunction_NonReplay( player, "ServerCallback_AnnounceAmpedToBoss", ampd.GetEncodedEHandle() )
 }
 
 void function SelectFirstBossDelayed()
 {
-	wait 10.0 + RandomFloat( 5.0 )
+	wait 5.0 + RandomFloat( 5.0 )
 
 	array<entity> players = GetPlayerArray()
 	entity boss = players[ RandomInt( players.len() ) ]
@@ -86,12 +91,11 @@ void function MakePlayerAmped(entity player)
 void function RespawnBoss(entity player)
 {
 	player.Die()
-	RespawnAsTitan( player, false )
 	SetTeam( player, TEAM_IMC )
+	RespawnAsTitan( player, false )
 	player.SetTitanDisembarkEnabled(false)
 	player.SetMaxHealth(15000 * GetPlayerArray().len())
 	player.SetHealth(15000 * GetPlayerArray().len())
-	thread SelectAmpedPlayer()
 }
 
 void function RespawnAmped(entity player)

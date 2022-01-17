@@ -1,6 +1,9 @@
 global function ClGamemodePVB_Init
 global function ServerCallback_YouAreBoss
 global function ServerCallback_AnnounceBoss
+global function ServerCallback_YouAreAmped
+global function ServerCallback_AnnounceAmped
+global function ServerCallback_AnnounceAmpedToBoss
 
 void function ClGamemodePVB_Init()
 {
@@ -35,11 +38,11 @@ void function ServerCallback_YouAreBoss()
 	StartParticleEffectOnEntity( localPlayer.GetCockpit(), GetParticleSystemIndex( $"P_MFD" ), FX_PATTACH_ABSORIGIN_FOLLOW, -1 )
 	EmitSoundOnEntity( localPlayer, "UI_InGame_MarkedForDeath_PlayerMarked"  )
 	HideEventNotification()
-	AnnouncementData announcement = Announcement_Create( "You are the Boss" )
-	Announcement_SetSubText( announcement, "Kill Everyone" )
+	AnnouncementData announcement = Announcement_Create( "#PVB_YOU_ARE_BOSS" )
+	Announcement_SetSubText( announcement, "#PVB_KILL_PILOTS" )
 	Announcement_SetTitleColor( announcement, <1,0,0> )
 	Announcement_SetPurge( announcement, true )
-	Announcement_SetPriority( announcement, 200 ) //Be higher priority than Titanfall ready indicator etc
+	Announcement_SetPriority( announcement, 200 )
 	Announcement_SetSoundAlias( announcement, SFX_HUD_ANNOUNCE_QUICK )
 	Announcement_SetStyle( announcement, ANNOUNCEMENT_STYLE_QUICK )
 	AnnouncementFromClass( localPlayer, announcement )
@@ -49,11 +52,57 @@ void function ServerCallback_AnnounceBoss( int survivorEHandle )
 {
 	entity player = GetEntityFromEncodedEHandle( survivorEHandle )
 
-	AnnouncementData announcement = Announcement_Create( Localize( "The Boss Is ", player.GetPlayerName() ) )
-	//Announcement_SetSubText( announcement, "#INFECTION_KILL_LAST_SURVIVOR" )
+	AnnouncementData announcement = Announcement_Create( Localize( "#PVB_BOSS_IS", player.GetPlayerName() ) )
+	Announcement_SetSubText( announcement, "#PVB_KILL_BOSS" )
 	Announcement_SetTitleColor( announcement, <1,0,0> )
 	Announcement_SetPurge( announcement, true )
-	Announcement_SetPriority( announcement, 200 ) //Be higher priority than Titanfall ready indicator etc
+	Announcement_SetPriority( announcement, 200 )
+	Announcement_SetSoundAlias( announcement, SFX_HUD_ANNOUNCE_QUICK )
+	Announcement_SetStyle( announcement, ANNOUNCEMENT_STYLE_QUICK )
+	AnnouncementFromClass( GetLocalViewPlayer(), announcement )
+}
+
+void function ServerCallback_YouAreAmped()
+{
+	// heavily based on mfd code
+	entity localPlayer = GetLocalViewPlayer()
+
+	StartParticleEffectOnEntity( localPlayer.GetCockpit(), GetParticleSystemIndex( $"P_MFD" ), FX_PATTACH_ABSORIGIN_FOLLOW, -1 )
+	EmitSoundOnEntity( localPlayer, "UI_InGame_MarkedForDeath_PlayerMarked"  )
+	HideEventNotification()
+	AnnouncementData announcement = Announcement_Create( "#PVB_YOU_ARE_AMPED" )
+	Announcement_SetSubText( announcement, "#PVB_AMPED_KILL_BOSS" )
+	Announcement_SetTitleColor( announcement, <1,0,0> )
+	Announcement_SetPurge( announcement, true )
+	Announcement_SetPriority( announcement, 200 )
+	Announcement_SetSoundAlias( announcement, SFX_HUD_ANNOUNCE_QUICK )
+	Announcement_SetStyle( announcement, ANNOUNCEMENT_STYLE_QUICK )
+	AnnouncementFromClass( localPlayer, announcement )
+}
+
+void function ServerCallback_AnnounceAmped( int survivorEHandle )
+{
+	entity player = GetEntityFromEncodedEHandle( survivorEHandle )
+
+	AnnouncementData announcement = Announcement_Create( Localize( "#PVB_AMPED_IS", player.GetPlayerName() ) )
+	Announcement_SetSubText( announcement, "#PVB_AMPED_KILL_BOSS" )
+	Announcement_SetTitleColor( announcement, <1,0,0> )
+	Announcement_SetPurge( announcement, true )
+	Announcement_SetPriority( announcement, 200 )
+	Announcement_SetSoundAlias( announcement, SFX_HUD_ANNOUNCE_QUICK )
+	Announcement_SetStyle( announcement, ANNOUNCEMENT_STYLE_QUICK )
+	AnnouncementFromClass( GetLocalViewPlayer(), announcement )
+}
+
+void function ServerCallback_AnnounceAmpedToBoss( int survivorEHandle )
+{
+	entity player = GetEntityFromEncodedEHandle( survivorEHandle )
+
+	AnnouncementData announcement = Announcement_Create( Localize( "#PVB_AMPED_IS", player.GetPlayerName() ) )
+	Announcement_SetSubText( announcement, "#PVB_BOSS_KILL_AMPED" )
+	Announcement_SetTitleColor( announcement, <1,0,0> )
+	Announcement_SetPurge( announcement, true )
+	Announcement_SetPriority( announcement, 200 )
 	Announcement_SetSoundAlias( announcement, SFX_HUD_ANNOUNCE_QUICK )
 	Announcement_SetStyle( announcement, ANNOUNCEMENT_STYLE_QUICK )
 	AnnouncementFromClass( GetLocalViewPlayer(), announcement )
