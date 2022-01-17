@@ -121,7 +121,7 @@ void function MakePlayer( entity player )
 	// check how many bosses there are
 	//array<entity> bosses = GetPlayerArrayOfTeam( TEAM_IMC )
 	foreach( entity player in GetPlayerArrayOfTeam( TEAM_IMC ))
-		if ( GameTime_TimeLeftSeconds() > 30 )
+		if ( (GameMode_GetTimeLimit( GAMETYPE ) * 60 ) - Time() < 30 )
 			Highlight_SetEnemyHighlight( player, "enemy_sonar" )
 
 	PlayMusicToAll( eMusicPieceID.GAMEMODE_1 )
