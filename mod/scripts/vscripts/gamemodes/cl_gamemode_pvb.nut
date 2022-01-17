@@ -85,7 +85,7 @@ void function ServerCallback_AnnounceAmped( int survivorEHandle )
 	entity player = GetEntityFromEncodedEHandle( survivorEHandle )
 
 	AnnouncementData announcement = Announcement_Create( Localize( "#PVB_AMPED_IS", player.GetPlayerName() ) )
-	Announcement_SetSubText( announcement, "#PVB_AMPED_KILL_BOSS" )
+	Announcement_SetSubText( announcement, "#PVB_KILL_BOSS" )
 	Announcement_SetTitleColor( announcement, <1,0,0> )
 	Announcement_SetPurge( announcement, true )
 	Announcement_SetPriority( announcement, 200 )
