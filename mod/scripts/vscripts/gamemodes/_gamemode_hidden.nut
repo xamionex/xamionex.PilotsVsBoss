@@ -1,8 +1,8 @@
 untyped
-global function GamemodePVB_Init
+global function GamemodeHidden_Init
 
 
-void function GamemodePVB_Init()
+void function GamemodeHidden_Init()
 {
 	SetShouldUseRoundWinningKillReplay( true )
 	SetLoadoutGracePeriodEnabled( false ) // prevent modifying loadouts with grace period
