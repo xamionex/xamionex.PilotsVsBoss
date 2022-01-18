@@ -1,8 +1,8 @@
 untyped
-global function GamemodeHidden_Init
+global function GamemodePVB_Init
 
 
-void function GamemodeHidden_Init()
+void function GamemodePVB_Init()
 {
 	SetShouldUseRoundWinningKillReplay( true )
 	SetLoadoutGracePeriodEnabled( false ) // prevent modifying loadouts with grace period
@@ -19,6 +19,7 @@ void function GamemodeHidden_Init()
 	AddCallback_OnClientConnected( BossInitPlayer )
 	AddCallback_OnPlayerKilled( BossOnPlayerKilled )
 	AddCallback_GameStateEnter( eGameState.Playing, SelectFirstBoss )
+	//AddCallback_GameStateEnter( eGameState.Postmatch, RemoveBoss )
 	SetTimeoutWinnerDecisionFunc( TimeoutCheckBoss )
 	TrackTitanDamageInPlayerGameStat( PGS_ASSAULT_SCORE )
 }
@@ -31,12 +32,14 @@ void function BossInitPlayer( entity player )
 void function SelectFirstBoss()
 {
 	thread SelectFirstBossDelayed()
+	thread SelectAmpedPlayer()
 }
 
 void function SelectAmpedPlayer()
 {
+	wait 10.0 + RandomFloat( 5.0 )
 	array<entity> militia = GetPlayerArrayOfTeam( TEAM_MILITIA )
-	if ( militia.len() < 1 )
+	if ( militia.len() == 0 )
 		return
 	entity ampd = militia[ RandomInt( militia.len() ) ]
 	if (ampd != null || IsAlive(ampd))
@@ -48,7 +51,7 @@ void function SelectAmpedPlayer()
 
 void function SelectFirstBossDelayed()
 {
-	wait 10.0 + RandomFloat( 5.0 )
+	wait 5.0 + RandomFloat( 5.0 )
 
 	array<entity> players = GetPlayerArray()
 	entity boss = players[ RandomInt( players.len() ) ]
@@ -86,12 +89,11 @@ void function MakePlayerAmped(entity player)
 void function RespawnBoss(entity player)
 {
 	player.Die()
-	RespawnAsTitan( player, false )
 	SetTeam( player, TEAM_IMC )
+	RespawnAsTitan( player, false )
 	player.SetTitanDisembarkEnabled(false)
 	player.SetMaxHealth(15000 * GetPlayerArray().len())
 	player.SetHealth(15000 * GetPlayerArray().len())
-	thread SelectAmpedPlayer()
 }
 
 void function RespawnAmped(entity player)
