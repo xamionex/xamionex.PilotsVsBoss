@@ -1,7 +1,9 @@
 # xamionex.PilotsVsBoss
 
-### This is my mod for the PvB server that i host
+(place xamionex.PilotsVsBoss inside your mods folder)
+
 ## How to install on your server
+
 1. Open ns_startup_args_dedi.txt
    - Add to your playlist var overrides:
      - +setplaylistvaroverrides "custom_air_accel_pilot 9000 featured_mode_amped_tacticals 1 timelimit 3 fp_embark_enabled 1 oob_timer_enabled 0 no_pilot_collision 1"
