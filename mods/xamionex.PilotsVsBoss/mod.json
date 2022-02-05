@@ -1,7 +1,7 @@
 {
 	"Name" : "xamionex.PilotsVsBoss",
 	"Description" : "Want to have a change of pace? Fight a boss or be the boss yourself!\n\nThis is a server side script, no need for clients to download",
-	"Version": "1.0.3",
+	"Version": "1.0.4",
 	"LoadPriority": 2,
 	"Scripts": [
         {
