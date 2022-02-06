@@ -1,4 +1,12 @@
-# xamionex.PilotsVsBoss
+# What does it do
+
+- A random player is picked to be a boss, with increasing HP (player scaled)
+- Another player from the survivors/pilots team is picked to be Amped (more hp, inf stim)
+
+## How do you win
+
+- The boss wins by timeout or killing all pilots
+- The pilots win by killing the boss
 
 ## How to install on your server
 
